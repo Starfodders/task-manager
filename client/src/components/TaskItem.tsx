@@ -1,15 +1,17 @@
-import React from 'react'
+import { useSelector } from "react-redux";
+import {listValue} from "./ListItemsSlice"
 
-type TaskItemProps = {
-    list: string[];
-  };
+const TaskItem = () => {
 
-const TaskItem: React.FC<TaskItemProps> = ({list}) => {
+    const list: string[] = useSelector(listValue)
+
   return (
     <div className='w-36 p-2 border-2 border-red-500 flex flex-col justify-between'>
         <h1 className='w-full'>Title</h1>
         {list.map((item) => {
-            return <p key = {item}>{item}</p>
+            if (list.length > 0) {
+                return <p key = {item}>{item}</p>
+            }
         })}
     </div>
   )

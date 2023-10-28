@@ -1,29 +1,29 @@
-import {useState, useEffect} from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { update, inputValue } from "./InputSlice"
+import {update as updateList} from "./ListItemsSlice"
 
-type AddTaskProp = {
-    addTask : (task:string) => void
-}
 
-const InputTask: React.FC<AddTaskProp> = ({addTask}) => {
+const InputTask = () => {
 
-    const [inputValue, setInputValue] = useState<string>('')
+    const input: string = useSelector(inputValue)
+    const dispatch = useDispatch()
 
-    function handleChange(e:React.ChangeEvent<HTMLInputElement>) {
-        setInputValue(e.target.value)
+    function handleChange2(e: React.ChangeEvent<HTMLInputElement>) {
+        dispatch(update(e.target.value))
     }
 
     function handleInput() {
-        addTask(inputValue)
-        setInputValue('')
+        dispatch(updateList(input))
+        dispatch(update(''))
     }
 
 
-  return (
-    <>
-    <input value={inputValue} onChange = {(e) => handleChange(e)}></input>
-    <button className='p-5 bg-blue-700 text-white' onClick = {() => handleInput()}>Add Task</button>
-    </>
-  )
+    return (
+        <>
+            <input value={input} onChange={(e) => handleChange2(e)}></input>
+            <button className='p-5 bg-blue-700 text-white' onClick = {() => handleInput()}>Add Task</button>
+        </>
+    )
 }
 
 export default InputTask

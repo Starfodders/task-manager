@@ -1,8 +1,12 @@
+
+import TaskArea from "./components/TaskArea";
+import TaskList from "./components/TaskList";
 import "./index.css"
 
 function App() {
   return <>
-    <h1 className='text-2xl'>Hello</h1>
+    <TaskArea/>
+    <TaskList/>
   </>
 }
 

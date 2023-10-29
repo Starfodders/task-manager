@@ -5,24 +5,27 @@ import {update as updateList} from "./ListItemsSlice"
 
 const InputTask = () => {
 
+
     const input: string = useSelector(inputValue)
     const dispatch = useDispatch()
 
-    function handleChange2(e: React.ChangeEvent<HTMLInputElement>) {
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         dispatch(update(e.target.value))
     }
 
-    function handleInput() {
-        dispatch(updateList(input))
-        dispatch(update(''))
+    function handleKeyDown(e: React.KeyboardEvent) {
+        if (e.key === 'Enter') {
+            dispatch(updateList(input))
+            dispatch(update(''))
+        }
     }
 
 
+
     return (
-        <>
-            <input value={input} onChange={(e) => handleChange2(e)}></input>
-            <button className='p-5 bg-blue-700 text-white' onClick = {() => handleInput()}>Add Task</button>
-        </>
+        <div className='flex w-full justify-around'>
+            <input value={input} onChange={(e) => handleChange(e)} onKeyDown = {(e) => handleKeyDown(e)}className='w-1/2 border-2 p-2'></input>
+        </div>
     )
 }
 

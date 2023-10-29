@@ -1,8 +1,10 @@
-import React from 'react'
+import TaskHistory from "./TaskHistory"
 
 const TaskList = () => {
   return (
-    <div>TaskList</div>
+    <>
+      <TaskHistory />
+    </>
   )
 }
 

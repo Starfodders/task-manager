@@ -5,7 +5,6 @@ import {update as updateList} from "./ListItemsSlice"
 
 const InputTask = () => {
 
-
     const input: string = useSelector(inputValue)
     const dispatch = useDispatch()
 
@@ -16,7 +15,7 @@ const InputTask = () => {
     function handleKeyDown(e: React.KeyboardEvent) {
         if (e.key === 'Enter') {
             dispatch(updateList(input))
-            dispatch(update(''))
+            dispatch(update(''))            
         }
     }
 

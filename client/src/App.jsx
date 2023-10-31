@@ -5,6 +5,7 @@ import TaskList from "./components/TaskList";
 import "./index.css"
 
 function App() {
+
   return <Provider store = {store}>
     <TaskArea/>
     <TaskList/>

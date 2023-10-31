@@ -3,36 +3,54 @@ import TaskItem from "./TaskItem";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { prePostContents, updateTasks } from "./PostContentSlice";
+import { setTrue } from "./UpdateHistorySlice";
 import { listValue } from "./ListItemsSlice";
 
-//first update the state value to be included within the body
-//then once this is updated, call a useEffect
 
 const TaskArea = () => {
 
+  //get cookie for django
+  axios.get('http://localhost:8000', { withCredentials: true })
+
   const [beginPost, setBeginPost] = useState<Boolean>(false)
-  
+
   const dispatch = useDispatch()
   const listObj = useSelector(prePostContents)
   const taskArray: string[] = useSelector(listValue)
 
   const submitList: () => void = () => {
+
+    //update state to send
     dispatch(updateTasks(taskArray))
     setBeginPost(true)
+
+  }
+
+  const getCSRFToken = (token: string) => {
+    const split = token.split('=')
+    const [name, value] = split
+    if (name === 'csrftoken') {
+      return value
+    }
   }
 
   useEffect(() => {
     if (beginPost) {
-      try {
-        axios.post('http://localhost:8080/', {
-          title: listObj.title,
-          content: listObj.tasks
-        })
-        
-      }catch(err) {
-        console.error(err + ':Error submitting the post to backend');
+      const token = getCSRFToken(document.cookie)
+      const sendPost = async () => {
+        try {
+          await axios.post('http://localhost:8000/new/', {
+            title: listObj.value.title,
+            content: listObj.value.tasks
+          }, { headers: { 'X-CSRFToken': token }, withCredentials: true })
+        }
+        catch (err) {
+          console.error(err + ':Error submitting the post to backend');
+        }
+      }      
+      sendPost()
+      dispatch(setTrue())
 
-      }
     }
   }, [beginPost])
 

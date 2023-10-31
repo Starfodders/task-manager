@@ -1,6 +1,10 @@
 from django.urls import path
-from . import views
+from .views import get_list, get_token
 
 urlpatterns = [
-    path('', views.home)
+    # path('set/', views.set_value, name='set_value'),
+    # path('get/', views.get_value, name='get_value'),
+    # path('new-task', views.get_list, name = "get_list")
+    path('', get_token),
+    path('new/', get_list)
 ]

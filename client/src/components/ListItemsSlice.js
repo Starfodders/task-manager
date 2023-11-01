@@ -9,9 +9,12 @@ const ListItems = createSlice({
     update: (state, action) => {
       state.value = [...state.value, action.payload];
     },
+    clearList: (state) => {
+      state.value = []
+    }
   },
 });
 
-export const { update } = ListItems.actions;
+export const { update, clearList } = ListItems.actions;
 export const listValue = (state) => state.list.value;
 export default ListItems.reducer;

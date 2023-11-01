@@ -10,8 +10,6 @@ import { listValue } from "./ListItemsSlice";
 const TaskArea = () => {
 
   //get cookie for django
-  axios.get('http://localhost:8000', { withCredentials: true })
-
   const [beginPost, setBeginPost] = useState<Boolean>(false)
 
   const dispatch = useDispatch()
@@ -35,8 +33,11 @@ const TaskArea = () => {
   }
 
   useEffect(() => {
+  axios.get('http://localhost:8000', { withCredentials: true })
+
     if (beginPost) {
       const token = getCSRFToken(document.cookie)
+      
       const sendPost = async () => {
         try {
           await axios.post('http://localhost:8000/new/', {
@@ -50,14 +51,15 @@ const TaskArea = () => {
       }      
       sendPost()
       dispatch(setTrue())
+      setBeginPost(false)
 
     }
   }, [beginPost])
 
   return (
-    <div className='w-1/2 p-6 border-2 border-red-500 flex flex-col justify-between'>
+    <div className='main-bg w-full min-h-[45rem] p-6 pt-20 flex flex-col justify-between items-center'>
       <TaskItem />
-      <button onClick={() => submitList()}>Submit</button>
+      <button onClick={() => submitList()} className="up-btn bg-[#f5cb5c] text-[white] px-6 py-4 uppercase mb-5">Upload</button>
     </div>
   )
 }

@@ -1,3 +1,37 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.main-bg {
+    background: #e8eddf;
+    /* animation: color 9s infinite alternate; */
+    text-align: center;
+}
+
+body {
+    background: #333533;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+}
+
+.card {
+    background-color: #c0b380;
+    background-image: url("https://www.transparenttextures.com/patterns/textured-paper.png");
+    box-shadow: rgb(110, 110, 110) 3px 3px 10px;
+    
+}
+
+.up-btn {
+    box-shadow: #333533 0px 8px;
+    border-radius: 4px;
+}
+
+
+@keyframes color {
+    0%   { background: #cbc0d3; }
+    20%  { background: #cbc0d3; }
+    40%  { background: #efd3d7; }
+    60%  { background: #efd3d7; }
+    80%  { background: #feeafa; }
+    100% { background: #feeafa; }
+  }
+

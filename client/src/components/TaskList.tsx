@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import axios from "axios"
 
 interface TaskItem {
-  key: string,
+  id: string,
   title: string,
   tasks: string[]
 }
@@ -15,12 +15,9 @@ const TaskList: React.FC = () => {
   const historyValue = useSelector(historyState);
   const dispatch = useDispatch();
 
-  const genUUID = () => {
-    return Math.random() * 3000
-  }
-
   useEffect(() => {
-    if (historyValue.value) {
+    if (historyValue) {      
+      
       const updateList = async () => {
         try {
           const res = await axios.get('http://localhost:8000/update/');
@@ -30,21 +27,21 @@ const TaskList: React.FC = () => {
         }
       };
       updateList();
-      dispatch(setFalse());
+      dispatch(setFalse());      
       
     }
   }, [historyValue, dispatch]);
 
   if (taskList.length > 0) {
     return (
-      <>
-        {taskList.map((item) => (
-          <TaskHistory key = {genUUID()} title={item.title} list={item.tasks} />
+      <div className="flex justify-center p-4 gap-10">
+        {taskList.map((item, index) => (
+          <TaskHistory id = {index} title={item.title} list={item.tasks} />
         ))}
-      </>
+      </div>
     );
   } else {
-    return <p>Loading tasks</p>;
+    return <p>No Previous Tasks to Show</p>;
   }
 };
 

@@ -1,16 +1,17 @@
 import { useSelector, useDispatch } from "react-redux";
-import { updateTitle } from "./PostContentSlice";
-import {listValue} from "./ListItemsSlice"
-import { prePostContents } from "./PostContentSlice";
+import { listValue, clearList } from "./ListItemsSlice"
+import { prePostContents, updateTitle } from "./PostContentSlice";
+import { historyState } from "./UpdateHistorySlice"
 import InputTask from "./InputTask";
-import React from "react";
+import React, { useEffect } from "react";
 
 const TaskItem = () => {
 
   const dispatch = useDispatch()
   const accessPrePost = useSelector(prePostContents)
-  const {title} = accessPrePost.value
-    
+  const isUploading = useSelector(historyState)
+  const { title } = accessPrePost.value
+
 
   const list: string[] = useSelector(listValue)
 
@@ -18,15 +19,22 @@ const TaskItem = () => {
     dispatch(updateTitle(e.target.value))
   }
 
+  useEffect(() => {
+    if (isUploading) {
+      dispatch(clearList())
+      dispatch(updateTitle('New List'))
+    }
+  }, [isUploading])
+
   return (
-    <div>
-      <input value = {title} className="w-1/2 border-2 text-xl font-bold" onChange = {(e) => handleTitleChange(e)}></input>
-        {list.map((item) => {
-            if (list.length > 0) {
-                return <p key = {item}>{item}</p>
-            }
-        })}
-        <InputTask/>
+    <div className="card w-1/4 rounded-md h-[30rem] flex flex-col p-10">
+      <input value={title} className="w-full text-3xl text-white font-bold mb-2 bg-transparent focus:outline-none " onChange={(e) => handleTitleChange(e)} maxLength={30} placeholder="title"></input>
+      {list.map((item) => {
+        if (list.length > 0) {
+          return <p key={item} className="w-full text-left text-xl text-white py-[0.1rem]">{item}</p>
+        }
+      })}
+      <InputTask />
     </div>
   )
 }

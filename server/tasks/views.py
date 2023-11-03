@@ -43,7 +43,8 @@ def return_list(request):
         #grab each hashed list dict based on their ID, also parse the tasks array for the client
         converted_data = {k.decode('utf-8'): v.decode('utf-8') for k, v in post_data.items()}
         converted_data['tasks'] = json.loads(converted_data['tasks'])
-
+        converted_data['id'] = post_key[-1]
+        
         all_posts.append(converted_data)
 
     return JsonResponse(all_posts, safe=False)

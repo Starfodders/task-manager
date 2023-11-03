@@ -18,14 +18,14 @@ const TaskItem = () => {
   const { title } = accessPrePost.value
 
 
-  const list = useSelector(listValue)
+  const list = useSelector(listValue)  
   
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(updateTitle(e.target.value))
   }
 
   const removeTaskElement = (index: number) => {
-    const newList = list.items.filter((_:any, ind:number) => ind !== index)
+    const newList = list.filter((task:Task, ind:number) => ind !== index)
     dispatch(remove(newList))
     
   }

@@ -13,9 +13,7 @@ interface itemProps {
   list: Task[]
 }
 
-const TaskHistory: React.FC<itemProps> = ({ key, id, title, list }) => {
-  console.log(list);
-  
+const TaskHistory: React.FC<itemProps> = ({ key, id, title, list }) => {  
 
   const dispatch = useDispatch()
   const active = useSelector(currentActive)
@@ -26,7 +24,7 @@ const TaskHistory: React.FC<itemProps> = ({ key, id, title, list }) => {
   }
 
   return (
-    <div key={key} className={active_id === id ? "bg-white rounded-md min-h-[15rem] min-w-[10rem] p-4 relative border-4 border-[#f5cb5c]" : "bg-white rounded-md min-h-[15rem] min-w-[10rem] p-4 relative"} onClick={() => changeActive()} >
+    <div key={key} className={active_id === id ? "bg-white rounded-md min-h-[15rem] min-w-[10rem] p-4 relative border-4 border-[#f5cb5c]" : "bg-white rounded-md min-h-[15rem] min-w-[10rem] p-5 relative hover:animate-bounce"} onClick={() => changeActive()} >
       <p className="absolute -top-2 -left-2 rounded-[50%] bg-white py-1.5 px-3 text-sm">{id}</p>
       <h1>{title}</h1>
       {list.map((task: Task) => {

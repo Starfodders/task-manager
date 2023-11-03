@@ -36,11 +36,14 @@ const TaskArea = () => {
   }
 
   useEffect(() => {
-  axios.get('http://localhost:8000', { withCredentials: true })
+  axios.get('http://localhost:8000', { withCredentials: true })  
+
+    if (listObj.value.tasks.length === 0) {
+      return
+    }
 
     if (beginPost) {
       const token = getCSRFToken(document.cookie)      
-      
       const sendPost = async () => {
         try {
           await axios.post('http://localhost:8000/new/', {

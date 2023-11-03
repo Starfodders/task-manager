@@ -5,15 +5,19 @@ import { useSelector, useDispatch } from "react-redux";
 import { prePostContents, updateTasks } from "./PostContentSlice";
 import { setTrue } from "./UpdateHistorySlice";
 import { listValue } from "./ListItemsSlice";
-
+import ActiveTask from "./ActiveTask";
+import { currentActive } from "./ActiveListSlice"
 
 const TaskArea = () => {
 
   //get cookie for django
   const [beginPost, setBeginPost] = useState<Boolean>(false)
+  const [renderActive, setRenderActive] = useState<Boolean>(false)
 
   const dispatch = useDispatch()
   const listObj = useSelector(prePostContents)
+  const activeCard = useSelector(currentActive)
+  
   const taskArray: string[] = useSelector(listValue)
 
   const submitList: () => void = () => {
@@ -21,7 +25,6 @@ const TaskArea = () => {
     //update state to send
     dispatch(updateTasks(taskArray))
     setBeginPost(true)
-
   }
 
   const getCSRFToken = (token: string) => {
@@ -56,9 +59,18 @@ const TaskArea = () => {
     }
   }, [beginPost])
 
+  useEffect(() => {
+    if (activeCard.value && Object.values(activeCard.value).length > 0) {
+      setRenderActive(true)
+    }
+  }, [activeCard, renderActive])
+
   return (
-    <div className='main-bg w-full min-h-[45rem] p-6 pt-20 flex flex-col justify-between items-center'>
-      <TaskItem />
+    <div className='main-bg w-full min-h-[42rem] p-6 flex flex-col justify-between items-center'>
+      <div className="w-full flex justify-center gap-10">
+       <TaskItem />
+        {renderActive && <ActiveTask/>}
+      </div>
       <button onClick={() => submitList()} className="up-btn bg-[#f5cb5c] text-[white] px-6 py-4 uppercase mb-5">Upload</button>
     </div>
   )

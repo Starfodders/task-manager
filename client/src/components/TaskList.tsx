@@ -1,6 +1,7 @@
 import TaskHistory from "./TaskHistory"
 import { useState, useEffect } from "react"
 import { historyState, setFalse } from "./UpdateHistorySlice"
+import { updateActive } from "./ActiveListSlice"
 import { useDispatch, useSelector } from "react-redux"
 import axios from "axios"
 
@@ -20,8 +21,10 @@ const TaskList: React.FC = () => {
       
       const updateList = async () => {
         try {
-          const res = await axios.get('http://localhost:8000/update/');
-          setTaskList(res.data);
+          const res = await axios.get('http://localhost:8000/update/');          
+          const sorted = res.data.sort((a:TaskItem , b: TaskItem) => Number(a.id) - Number(b.id))      
+          dispatch(updateActive(sorted[sorted.length - 1])) //set the most recent list to the active list
+          setTaskList(sorted);
         } catch (err) {
           console.error(err + ':Error calling endpoint update at localhost');
         }
@@ -34,9 +37,9 @@ const TaskList: React.FC = () => {
 
   if (taskList.length > 0) {
     return (
-      <div className="flex justify-center p-4 gap-10">
-        {taskList.map((item, index) => (
-          <TaskHistory id = {index} title={item.title} list={item.tasks} />
+      <div className="flex justify-center p-4 gap-10 overflow-hidden">
+        {taskList.map((item) => (
+          <TaskHistory key = {item.id} id = {item.id} title={item.title} list={item.tasks} />
         ))}
       </div>
     );

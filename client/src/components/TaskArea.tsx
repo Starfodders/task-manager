@@ -39,7 +39,7 @@ const TaskArea = () => {
   axios.get('http://localhost:8000', { withCredentials: true })
 
     if (beginPost) {
-      const token = getCSRFToken(document.cookie)
+      const token = getCSRFToken(document.cookie)      
       
       const sendPost = async () => {
         try {
@@ -69,7 +69,7 @@ const TaskArea = () => {
     <div className='main-bg w-full min-h-[42rem] p-6 flex flex-col justify-between items-center'>
       <div className="w-full flex justify-center gap-10">
        <TaskItem />
-        {renderActive && <ActiveTask/>}
+        {renderActive && <ActiveTask newActive = {activeCard}/>}
       </div>
       <button onClick={() => submitList()} className="up-btn bg-[#f5cb5c] text-[white] px-6 py-4 uppercase mb-5">Upload</button>
     </div>

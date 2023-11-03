@@ -18,7 +18,7 @@ const InputTask = () => {
 
     function handleKeyDown(e: React.KeyboardEvent) {
         if (e.key === 'Enter') {
-            dispatch(updateList(input))
+            dispatch(updateList({'items': input, 'complete' : false}))
             dispatch(update(''))            
         }
     }
@@ -33,7 +33,7 @@ const InputTask = () => {
 
     return (
         <div className='flex w-full'>
-            <input value={input} onChange={(e) => handleChange(e)} onKeyDown = {(e) => handleKeyDown(e)} className='w-full px-2 py-1 mt-[0.5rem] text-xl rounded-md bg-[#ffffff] focus:outline-none '></input>
+            <input value={input} onChange={(e) => handleChange(e)} onKeyDown = {(e) => handleKeyDown(e)} className='w-full px-2 py-1 mt-[0.5rem] text-xl rounded-md bg-[#ffffff] opacity-50 focus:outline-none '></input>
         </div>
     )
 }

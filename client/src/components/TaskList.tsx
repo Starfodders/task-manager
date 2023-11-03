@@ -8,7 +8,12 @@ import axios from "axios"
 interface TaskItem {
   id: string,
   title: string,
-  tasks: string[]
+  tasks: Task[]
+}
+
+interface Task {
+  items: string,
+  completed: boolean
 }
 
 const TaskList: React.FC = () => {
@@ -21,10 +26,14 @@ const TaskList: React.FC = () => {
       
       const updateList = async () => {
         try {
-          const res = await axios.get('http://localhost:8000/update/');          
+          const res = await axios.get('http://localhost:8000/update/');      
+          // console.log(res.data);
+              
           const sorted = res.data.sort((a:TaskItem , b: TaskItem) => Number(a.id) - Number(b.id))      
           dispatch(updateActive(sorted[sorted.length - 1])) //set the most recent list to the active list
           setTaskList(sorted);
+          // console.log(taskList);
+          
         } catch (err) {
           console.error(err + ':Error calling endpoint update at localhost');
         }
